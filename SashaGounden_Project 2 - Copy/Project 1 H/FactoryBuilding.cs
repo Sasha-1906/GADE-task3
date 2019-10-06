@@ -11,13 +11,17 @@ namespace Project_1_H
         string unitType;
         int sponX;
         int sponY;
+        Map maparoo;
+        int mapHeight, mapWidth, numUnits, numBuildings;
         //no need to add speed field cause it is already implemented in the building parent class
         public FactoryBuilding(int x, int y, string faction, string unitName) : base(x, y, 150, faction, '$', 5, "Factory")
         {
+            maparoo = new Map(numUnits, numBuildings, mapHeight, mapWidth);
+
             unitType = unitName;
 
             sponX = x;
-            if (y == 19)
+            if (y == mapHeight)
             {
                 sponY = y - 1;
             }

@@ -14,7 +14,7 @@ namespace Project_1_H
         Random rnd = new Random();
         int numUnits, numBuildings;
         public Unit[] units;
-        Building[] buildings;
+        public Building[] buildings;
         string[,] maparoo;
         string[] factions = { "Blue-T", "Orange-T" };
 
@@ -37,7 +37,7 @@ namespace Project_1_H
             get { return buildings; }
         }
 
-        public int Size//can i make this into a 'SET' to have map size changable
+        public int Size
         {
             get { return this.mapHeight;
                   return this.mapWidth;

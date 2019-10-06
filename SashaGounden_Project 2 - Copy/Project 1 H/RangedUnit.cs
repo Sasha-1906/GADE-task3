@@ -55,6 +55,10 @@ namespace Project_1_H
         {
             return GetDistance(targetUnit) <= attackRange;
         }
+        public override bool IsBuildingInRange(Building building)
+        {
+            return GetBuildingDistance(building) <= attackRange;
+        }
         public override int Speed
         {
             get { return speed; }
@@ -90,22 +94,50 @@ namespace Project_1_H
             return closestUnit;// will move to or attack that unit
         }
 
+        public override Building GetClosestBuilding(Building[] building)//finds closest unit to targeted unit
+        {
+            double closestDistance = int.MaxValue;//new unit set to really big number 
+            Building closestBuilding = null;
+
+            for (int i = 0; i < building.Length; i++)
+            {
+                if (building[i].Faction == faction || building[i].IsDestroyed)//if the unit your checking is on te same team or if that unit is dead then skip that unit and move in the next one  
+                {
+                    continue;
+                }
+
+                double distance = GetBuildingDistance(building[i]);
+                if (distance < closestDistance)//if distance is smaller than closestdistance then make that distance the new closestdistance 
+                {
+                    closestDistance = distance;
+                    closestBuilding = building[i];
+                }
+            }
+            return closestBuilding;// will move to or attack that unit
+        }
+
 
         public override void Attack(Unit targetUnit/*, Building targetBuilding*/)
         {
             isAttacking = false;
             targetUnit.Health -= attack;//subtracts the attack damage from the targed units health
-            //targetBuilding.Health -= attack;
 
             if (targetUnit.Health <= 0)//checks if units health is below 0 and if it is then it is killed
             {
                 targetUnit.Destroy();
             }
 
-            //if (targetBuilding.Health <= 0)
-            //{
-            //    targetBuilding.Destroy();
-            //}
+        }
+
+        public override void AttackBuilding(Building building)
+        {
+            isAttacking = false;
+            building.Health -= attack;
+
+            if (building.Health <= 0)
+            {
+                building.Destroy();
+            }
         }
 
         public override void Move(Unit closestUnit)
@@ -115,6 +147,22 @@ namespace Project_1_H
             int yDistance = closestUnit.Y - Y;
 
             if(Math.Abs(xDistance) > Math.Abs(yDistance))
+            {
+                x += Math.Sign(xDistance);
+            }
+            else
+            {
+                y += Math.Sign(yDistance);
+            }
+        }
+
+        public override void MoveBuilding(Building closestBuilding)
+        {
+            isAttacking = false;
+            int xDistance = closestBuilding.X - X;
+            int yDistance = closestBuilding.Y - Y;
+
+            if (Math.Abs(xDistance) > Math.Abs(yDistance))
             {
                 x += Math.Sign(xDistance);
             }

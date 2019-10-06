@@ -22,7 +22,7 @@ namespace Project_1_H
             this.numBuildings = numBuildings;
             this.mapHeight = mapHeight;
             this.mapWidth = mapWidth;
-            maparoo = new Map(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
+            maparoo = new Map(numUnits, numBuildings, mapHeight, mapWidth);
         }
 
         public bool IsGameOver
@@ -67,13 +67,15 @@ namespace Project_1_H
             this.numBuildings = numBuildings;
             this.mapHeight = mapHeight;
             this.mapWidth = mapWidth;
-            maparoo.Reset(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
+            maparoo.Reset(numUnits, numBuildings, mapHeight, mapWidth);
             isGameOver = false;
             round = 0;
         }
 
         public void GameLoop()
         {
+            double healthPercentage;
+
             for (int i = 0; i < maparoo.Units.Length; i++)//runs through every unit
             {
                 if (maparoo.Units[i].IsDestroyed || round%maparoo.units[i].Speed != 0)
@@ -81,27 +83,47 @@ namespace Project_1_H
                     continue;
                 }
 
-                Unit closestUnit = maparoo.Units[i].GetClosestUnit(maparoo.Units);
-                if (closestUnit == null)
-                {
-                    isGameOver = true;
-                    winningFaction = maparoo.Units[i].Faction;
-                    maparoo.UpdateMap(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
-                    return;
-                }
+                Building closestBuilding = maparoo.Units[i].GetClosestBuilding(maparoo.Buildings);
 
-                double healthPercentage = maparoo.Units[i].Health / maparoo.Units[i].MaxHealth;
-                if (healthPercentage <= 0.25)
+                if (closestBuilding == null)
                 {
-                    maparoo.Units[i].RunAway();
-                }
-                else if (maparoo.Units[i].IsInRange(closestUnit))
-                {
-                    maparoo.Units[i].Attack(closestUnit);
+                    Unit closestUnit = maparoo.Units[i].GetClosestUnit(maparoo.Units);
+                    if (closestUnit == null)
+                    {
+                        isGameOver = true;
+                        winningFaction = maparoo.Units[i].Faction;
+                        maparoo.UpdateMap(numUnits, numBuildings, mapHeight, mapWidth);
+                        return;
+                    }
+                    healthPercentage = maparoo.Units[i].Health / maparoo.Units[i].MaxHealth;
+                    if (healthPercentage <= 0.25)
+                    {
+                        maparoo.Units[i].RunAway();
+                    }
+                    else if (maparoo.Units[i].IsInRange(closestUnit))//attck if in range
+                    {
+                        maparoo.Units[i].Attack(closestUnit);
+                    }
+                    else
+                    {
+                        maparoo.Units[i].Move(closestUnit);//moves to if not in range
+                    }
                 }
                 else
                 {
-                    maparoo.Units[i].Move(closestUnit);
+                     healthPercentage = maparoo.Units[i].Health / maparoo.Units[i].MaxHealth;
+                    if (healthPercentage <= 0.25)
+                    {
+                        maparoo.Units[i].RunAway();
+                    }
+                    else if (maparoo.Units[i].IsBuildingInRange(closestBuilding))//attck if in range
+                    {
+                        maparoo.Units[i].AttackBuilding(closestBuilding);
+                    }
+                    else
+                    {
+                        maparoo.Units[i].MoveBuilding(closestBuilding);//moves to if not in range
+                    }
                 }
                 StayInBounds(maparoo.Units[i], maparoo.Size);
             }
@@ -120,7 +142,7 @@ namespace Project_1_H
                 }
             }
 
-            maparoo.UpdateMap(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
+            maparoo.UpdateMap(numUnits, numBuildings, mapHeight, mapWidth);
             round++;
         }
 

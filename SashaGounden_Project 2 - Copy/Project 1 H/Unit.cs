@@ -41,16 +41,26 @@ namespace Project_1_H
         public abstract int Speed { get; }
 
         public abstract void Move(Unit closestUnit);
+        public abstract void MoveBuilding(Building closestBuilding);
         public abstract void Attack(Unit targetUnit);
+        public abstract void AttackBuilding(Building building);
         public abstract void RunAway();
         public abstract bool IsInRange(Unit otherUnit);
+        public abstract bool IsBuildingInRange(Building building);
         public abstract Unit GetClosestUnit(Unit[] units);
+        public abstract Building GetClosestBuilding(Building[] building);
         public abstract void Destroy();
 
         protected double GetDistance(Unit otherUnit)
         {
             double xDistance = otherUnit.X - X;
             double yDistance = otherUnit.Y - Y;
+            return Math.Sqrt(xDistance * xDistance + yDistance * yDistance);
+        }
+        protected double GetBuildingDistance(Building building)
+        {
+            double xDistance = building.X - X;
+            double yDistance = building.Y - Y;
             return Math.Sqrt(xDistance * xDistance + yDistance * yDistance);
         }
 
