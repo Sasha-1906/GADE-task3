@@ -89,15 +89,21 @@ namespace Project_1_H
             return closestUnit;// will move to or attack that unit
         }
 
-        public override void Attack(Unit targetUnit)
+        public override void Attack(Unit targetUnit/*, Building targetBuilding*/)
         {
             isAttacking = false;
             targetUnit.Health -= attack;//subtracts the attack damage from the targed units health
+            //targetBuilding.Health -= attack;
 
             if (targetUnit.Health <= 0)//checks if units health is below 0 and if it is then it is killed
             {
                 targetUnit.Destroy();
             }
+
+            //if (targetBuilding.Health <= 0)
+            //{
+            //    targetBuilding.Destroy();
+            //}
         }
 
         public override void Move(Unit closestUnit)

@@ -10,13 +10,19 @@ namespace Project_1_H
     class GameEngine
     {
         Map maparoo;
+        int mapHeight, mapWidth;
+        int numUnits, numBuildings;
         bool isGameOver = false;
         string winningFaction = "";
         int round = 0;
 
-        public GameEngine()
+        public GameEngine(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
-            maparoo = new Map(30, 10);
+            this.numUnits = numUnits;
+            this.numBuildings = numBuildings;
+            this.mapHeight = mapHeight;
+            this.mapWidth = mapWidth;
+            maparoo = new Map(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
         }
 
         public bool IsGameOver
@@ -55,9 +61,13 @@ namespace Project_1_H
             return unitInfo;
         }
 
-        public void Reset()
+        public void Reset(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
-            maparoo.Reset();
+            this.numUnits = numUnits;
+            this.numBuildings = numBuildings;
+            this.mapHeight = mapHeight;
+            this.mapWidth = mapWidth;
+            maparoo.Reset(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
             isGameOver = false;
             round = 0;
         }
@@ -76,7 +86,7 @@ namespace Project_1_H
                 {
                     isGameOver = true;
                     winningFaction = maparoo.Units[i].Faction;
-                    maparoo.UpdateMap();
+                    maparoo.UpdateMap(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
                     return;
                 }
 
@@ -110,9 +120,10 @@ namespace Project_1_H
                 }
             }
 
-            maparoo.UpdateMap();
+            maparoo.UpdateMap(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
             round++;
         }
+
 
         private void StayInBounds(Unit unit, int size)//moves units that moved off te map back onto the map
         {

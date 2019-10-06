@@ -41,7 +41,7 @@ namespace Project_1_H
         public abstract int Speed { get; }
 
         public abstract void Move(Unit closestUnit);
-        public abstract void Attack(Unit otherUnit);
+        public abstract void Attack(Unit targetUnit);
         public abstract void RunAway();
         public abstract bool IsInRange(Unit otherUnit);
         public abstract Unit GetClosestUnit(Unit[] units);

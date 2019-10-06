@@ -20,10 +20,6 @@ namespace Project_1_H
         {
             InitializeComponent();
 
-            engine = new GameEngine();
-            lblMap.Text = engine.GetMapDisplay();
-            txtInfo.Text = engine.GetUnitInfo();
-            lblCurrentRound.Text = "Round: " + engine.Round;
 
             timer = new Timer();
             timer.Interval = 1000;
@@ -60,6 +56,17 @@ namespace Project_1_H
 
         private void btnStartPause_Click(object sender, EventArgs e)
         {
+
+            int numUnits = int.Parse(txtNumUnits.Text);
+            int numBuildings = int.Parse(txtNumBuildings.Text);
+            int mapHeight = int.Parse(txtMapHeight.Text);
+            int mapWidth = int.Parse(txtMapWidth.Text);
+
+            engine = new GameEngine(numUnits, numBuildings, mapHeight, mapWidth);
+            lblMap.Text = engine.GetMapDisplay();
+            txtInfo.Text = engine.GetUnitInfo();
+            lblCurrentRound.Text = "Round: " + engine.Round;
+
             if (gameState == GameState.RUNNING)
             {
                 timer.Stop();
@@ -70,7 +77,7 @@ namespace Project_1_H
             {
                 if (gameState == GameState.ENDED)
                 {
-                    engine.Reset();
+                    engine.Reset(numUnits, numBuildings, mapHeight, mapWidth);
                 }
 
                 timer.Start();

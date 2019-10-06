@@ -18,13 +18,13 @@ namespace Project_1_H
         string[,] maparoo;
         string[] factions = { "Blue-T", "Orange-T" };
 
-        public Map(int numUnits, int numBuildings/*, int mapHeight, int mapWidth*/)
+        public Map(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
             this.numUnits = numUnits;
             this.numBuildings = numBuildings;
-            //this.mapHeight = mapHeight;
-            //this.mapWidth = mapWidth;
-            Reset();
+            this.mapHeight = mapHeight;
+            this.mapWidth = mapWidth;
+            Reset(numUnits, numBuildings, mapHeight, mapWidth);
         }
 
         public Unit[] Units
@@ -39,17 +39,18 @@ namespace Project_1_H
 
         public int Size//can i make this into a 'SET' to have map size changable
         {
-            get { return mapHeight;
-                  return mapWidth;
+            get { return this.mapHeight;
+                  return this.mapWidth;
                 }
+
         }
 
         public string GetMapDisplay()
         {
             string mapString = "";
-            for (int y = 0; y < mapHeight; y++)
+            for (int y = 0; y < this.mapHeight; y++)
             {
-                for (int x = 0; x < mapWidth; x++)
+                for (int x = 0; x < this.mapWidth; x++)
                 {
                     mapString += maparoo[x, y];
                 }
@@ -58,20 +59,25 @@ namespace Project_1_H
             return mapString;
         }
 
-        public void Reset()
+        public void Reset(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
-            maparoo = new string[mapWidth, mapHeight];
-            units = new Unit[numUnits];
-            buildings = new Building[numBuildings];
+            this.numUnits = numUnits;
+            this.numBuildings = numBuildings;
+            this.mapHeight = mapHeight;
+            this.mapWidth = mapWidth;
+
+            maparoo = new string[this.mapWidth, this.mapHeight];
+            units = new Unit[this.numUnits];
+            buildings = new Building[this.numBuildings];
             InitializeUnits();
-            UpdateMap();
+            UpdateMap(this.numUnits, this.numBuildings, this.mapHeight, this.mapWidth);
         }
 
-        public void UpdateMap()
+        public void UpdateMap(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
-            for (int y = 0; y < mapHeight; y++)
+            for (int y = 0; y < this.mapHeight; y++)
             {
-                for (int x = 0; x < mapWidth; x++)
+                for (int x = 0; x < this.mapWidth; x++)
                 {
                     maparoo[x, y] = "~~~";//populates map with ~
                 }
@@ -92,15 +98,15 @@ namespace Project_1_H
         {
             for (int i = 0; i < units.Length; i++)
             {
-                int x = rnd.Next(0, mapWidth);
-                int y = rnd.Next(0, mapHeight);
+                int x = rnd.Next(0, this.mapWidth);
+                int y = rnd.Next(0, this.mapHeight);
                 int factionIndex = rnd.Next(0, 2);
                 int unitType = rnd.Next(0, 2);
 
                 while (maparoo[x, y] != null)
                 {
-                    x = rnd.Next(0, mapWidth);
-                    y = rnd.Next(0, mapHeight);
+                    x = rnd.Next(0, this.mapWidth);
+                    y = rnd.Next(0, this.mapHeight);
                 }
 
                 if (unitType == 0)
@@ -116,16 +122,16 @@ namespace Project_1_H
 
             for (int i = 0; i < buildings.Length; i++)
             {
-                int x = rnd.Next(0, mapHeight);
-                int y = rnd.Next(0, mapWidth);
+                int x = rnd.Next(0, this.mapHeight);
+                int y = rnd.Next(0, this.mapWidth);
                 int factionIndex = rnd.Next(0, 2);
                 int unitType = rnd.Next(0, 2);
                 
 
                 while (maparoo[x, y] != null)
                 {
-                    x = rnd.Next(0, mapWidth);
-                    y = rnd.Next(0, mapHeight);
+                    x = rnd.Next(0, this.mapWidth);
+                    y = rnd.Next(0, this.mapHeight);
                 }
 
                 if (unitType == 0)//construct factory building 
@@ -185,7 +191,7 @@ namespace Project_1_H
             }
             reader.Close();
             file.Close();
-            UpdateMap();
+            UpdateMap(numUnits, numBuildings, mapHeight, mapWidth);
        }
 
 
@@ -218,7 +224,7 @@ namespace Project_1_H
             }
             reader.Close();
             file.Close();
-            UpdateMap();
+            UpdateMap(numUnits, numBuildings, mapHeight, mapWidth);
         }
     }
 }
