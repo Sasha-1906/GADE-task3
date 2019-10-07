@@ -17,6 +17,7 @@ namespace Project_1_H
         public Building[] buildings;
         string[,] maparoo;
         string[] factions = { "Blue-T", "Orange-T" };
+        string wFaction = "Wizard-T";
 
         public Map(int numUnits, int numBuildings, int mapHeight, int mapWidth)
         {
@@ -101,7 +102,8 @@ namespace Project_1_H
                 int x = rnd.Next(0, this.mapWidth);
                 int y = rnd.Next(0, this.mapHeight);
                 int factionIndex = rnd.Next(0, 2);
-                int unitType = rnd.Next(0, 2);
+                int unitType = rnd.Next(0, 3);
+                
 
                 while (maparoo[x, y] != null)
                 {
@@ -113,12 +115,30 @@ namespace Project_1_H
                 {
                     units[i] = new MeleeUnit(x, y, factions[factionIndex]);
                 }
-                else
+                else if(unitType == 1)
                 {
                     units[i] = new RangedUnit(x, y, factions[factionIndex]);
                 }
+                else
+                {
+                    units[i] = new WizardUnit(x, y, wFaction);
+                }
                 maparoo[x, y] = units[i].Faction[0] + "/" + units[i].Symbol;
             }
+
+            //for (int i = 0; i < units.Length; i++)
+            //{
+            //    int x = rnd.Next(0, this.mapWidth);
+            //    int y = rnd.Next(0, this.mapHeight);
+            //    int wizFaction;
+
+            //    while (maparoo[x, y] != null)
+            //    {
+            //        x = rnd.Next(0, this.mapWidth);
+            //        y = rnd.Next(0, this.mapHeight);
+            //    }
+            //    units[i] = new WizardUnit(x, y, );
+            //}
 
             for (int i = 0; i < buildings.Length; i++)
             {

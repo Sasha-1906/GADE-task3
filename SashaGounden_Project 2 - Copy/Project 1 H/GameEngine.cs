@@ -85,7 +85,7 @@ namespace Project_1_H
 
                 Building closestBuilding = maparoo.Units[i].GetClosestBuilding(maparoo.Buildings);
 
-                if (closestBuilding == null)
+                if (closestBuilding == null)//if there are no buildings then attack enemy
                 {
                     Unit closestUnit = maparoo.Units[i].GetClosestUnit(maparoo.Units);
                     if (closestUnit == null)
@@ -109,7 +109,7 @@ namespace Project_1_H
                         maparoo.Units[i].Move(closestUnit);//moves to if not in range
                     }
                 }
-                else
+                else//else if there are building with health then attack them before anything else
                 {
                      healthPercentage = maparoo.Units[i].Health / maparoo.Units[i].MaxHealth;
                     if (healthPercentage <= 0.25)
