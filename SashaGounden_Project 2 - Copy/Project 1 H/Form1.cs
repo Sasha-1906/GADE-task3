@@ -56,12 +56,13 @@ namespace Project_1_H
 
         private void btnStartPause_Click(object sender, EventArgs e)
         {
-
+            //converts what was given in the textboxes by the user into ints 
             int numUnits = int.Parse(txtNumUnits.Text);
             int numBuildings = int.Parse(txtNumBuildings.Text);
             int mapHeight = int.Parse(txtMapHeight.Text);
             int mapWidth = int.Parse(txtMapWidth.Text);
 
+            //called here so it changes the map when the start button is clicked
             engine = new GameEngine(numUnits, numBuildings, mapHeight, mapWidth);
             lblMap.Text = engine.GetMapDisplay();
             txtInfo.Text = engine.GetUnitInfo();

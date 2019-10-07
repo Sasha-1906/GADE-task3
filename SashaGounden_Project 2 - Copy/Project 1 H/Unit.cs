@@ -51,7 +51,7 @@ namespace Project_1_H
         public abstract Building GetClosestBuilding(Building[] building);
         public abstract void Destroy();
 
-        protected double GetDistance(Unit otherUnit)
+        public double GetDistance(Unit otherUnit)
         {
             double xDistance = otherUnit.X - X;
             double yDistance = otherUnit.Y - Y;

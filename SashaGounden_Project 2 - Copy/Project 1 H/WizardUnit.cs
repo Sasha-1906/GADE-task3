@@ -8,7 +8,7 @@ namespace Project_1_H
 {
     class WizardUnit : Unit
     {
-        public WizardUnit(int x, int y, string faction) : base(x, y, 50, 3, 30, 1/*this will change*/, faction, 'W', "Spellcaster")
+        public WizardUnit(int x, int y, string faction) : base(x, y, 50, 2, 50, 1, faction, 'W', "Spellcaster")
         {
 
         }
@@ -97,19 +97,11 @@ namespace Project_1_H
         public override void Attack(Unit targetUnit)
         {
             isAttacking = false;
-            int attackSize = 3;
+            targetUnit.Health -= attack;//subtracts the attack damage from the targed units health
 
-            for (int r = 0; r < attackSize; r++)
+            if (targetUnit.Health <= 0)//checks if units health is below 0 and if it is then it is killed
             {
-                for (int c = 0; c < attackSize; c++)
-                {
-                    targetUnit.Health -= attack;//subtracts the attack damage from the targed units health
-
-                    if (targetUnit.Health <= 0)//checks if units health is below 0 and if it is then it is killed
-                    {
-                        targetUnit.Destroy();
-                    }
-                }
+                targetUnit.Destroy();
             }
         }
 

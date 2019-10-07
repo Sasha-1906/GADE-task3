@@ -61,7 +61,7 @@ namespace Project_1_H
             return unitInfo;
         }
 
-        public void Reset(int numUnits, int numBuildings, int mapHeight, int mapWidth)
+        public void Reset(int numUnits, int numBuildings, int mapHeight, int mapWidth)//so it changes the map as customized by the user when map resets
         {
             this.numUnits = numUnits;
             this.numBuildings = numBuildings;
@@ -85,6 +85,8 @@ namespace Project_1_H
 
                 Building closestBuilding = maparoo.Units[i].GetClosestBuilding(maparoo.Buildings);
 
+
+
                 if (closestBuilding == null)//if there are no buildings then attack enemy
                 {
                     Unit closestUnit = maparoo.Units[i].GetClosestUnit(maparoo.Units);
@@ -96,9 +98,24 @@ namespace Project_1_H
                         return;
                     }
                     healthPercentage = maparoo.Units[i].Health / maparoo.Units[i].MaxHealth;
-                    if (healthPercentage <= 0.25)
+                    if (maparoo.Units[i].Symbol == 'W' && healthPercentage <= 0.50)//checks if the unit is a wizard and its health is = to to < 50% 
                     {
                         maparoo.Units[i].RunAway();
+                    }
+                    else if (healthPercentage <= 0.25)
+                    {
+                        maparoo.Units[i].RunAway();
+                    }
+                    else if (maparoo.Units[i].Symbol == 'W' && maparoo.Units[i].IsInRange(closestUnit))//if unit is wizard and closest unit is in range then attack 
+                    {
+                        for (int e = 0; e < maparoo.Units.Length; e++)
+                        {
+                            double distance = maparoo.Units[i].GetDistance(maparoo.Units[e]);
+                            if (distance < 2 && distance > 0)//attack within a 1 block radius around me
+                            {
+                                maparoo.Units[i].Attack(maparoo.Units[e]);
+                            }
+                        }
                     }
                     else if (maparoo.Units[i].IsInRange(closestUnit))//attck if in range
                     {

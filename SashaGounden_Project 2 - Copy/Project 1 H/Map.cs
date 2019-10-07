@@ -67,6 +67,7 @@ namespace Project_1_H
             this.mapHeight = mapHeight;
             this.mapWidth = mapWidth;
 
+            //objects
             maparoo = new string[this.mapWidth, this.mapHeight];
             units = new Unit[this.numUnits];
             buildings = new Building[this.numBuildings];
@@ -86,11 +87,19 @@ namespace Project_1_H
 
             for (int i = 0; i < units.Length; i++)//runs through unit array and changes ~ to a unit
             {
+                if (units[i].Health <= 0)//checks if the health is below 0 then it doesnt get printed 
+                {
+                    continue;
+                }
                 maparoo[units[i].X, units[i].Y] = units[i].Faction[0] + "/" + units[i].Symbol;
             }
 
             for (int i = 0; i < buildings.Length; i++)
             {
+                if (buildings[i].Health <= 0)//checks if the health is below 0 then it doesnt get printed 
+                {
+                    continue;
+                }
                 maparoo[buildings[i].X, buildings[i].Y] = buildings[i].Faction[0] + "/" + buildings[i].Symbol;
             }
         }
@@ -121,24 +130,10 @@ namespace Project_1_H
                 }
                 else
                 {
-                    units[i] = new WizardUnit(x, y, wFaction);
+                    units[i] = new WizardUnit(x, y, wFaction);// makes wizards and puts them in there own team
                 }
                 maparoo[x, y] = units[i].Faction[0] + "/" + units[i].Symbol;
             }
-
-            //for (int i = 0; i < units.Length; i++)
-            //{
-            //    int x = rnd.Next(0, this.mapWidth);
-            //    int y = rnd.Next(0, this.mapHeight);
-            //    int wizFaction;
-
-            //    while (maparoo[x, y] != null)
-            //    {
-            //        x = rnd.Next(0, this.mapWidth);
-            //        y = rnd.Next(0, this.mapHeight);
-            //    }
-            //    units[i] = new WizardUnit(x, y, );
-            //}
 
             for (int i = 0; i < buildings.Length; i++)
             {
